@@ -1,4 +1,4 @@
-# electron starter (react + webpack)
+# Electron starter (react + webpack)
 
 Clone the repo to you working directory and run:
 
@@ -9,7 +9,7 @@ npm install
 Once everything is installed. To checkout the development app, run
 
 ```
-gulp
+gulp or npm start
 ```
 
 If you are happy with your app, and ready for packaging (x64, Mac & Win). run
