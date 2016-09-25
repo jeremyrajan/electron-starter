@@ -15,7 +15,7 @@ gulp or npm start
 If you are happy with your app, and ready for packaging (x64, Mac & Win). run
 
 ```
-gulp build
+gulp release
 ```
 
 which will lint, compile and package it for you under releases directory.
