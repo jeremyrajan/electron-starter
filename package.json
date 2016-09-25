@@ -1,6 +1,6 @@
 {
   "name": "electron-starter",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Electron boilerplate with react & webpack",
   "main": "main.js",
   "scripts": {
@@ -36,7 +36,10 @@
     "eslint-plugin-react": "^6.3.0",
     "fs-extra": "^0.30.0",
     "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^3.1.1",
+    "gulp-concat": "^2.6.0",
     "gulp-eslint": "^3.0.1",
+    "gulp-sass": "^2.3.2",
     "gulp-util": "^3.0.7",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",

@@ -9,10 +9,13 @@ const del = require('del');
 const path = require('path');
 const packager = require('electron-packager');
 const fs = require('fs-extra');
+const sass = require('gulp-sass');
+const autoprefixer = require('gulp-autoprefixer');
+const concat = require('gulp-concat');
 
 const packageJSON = require('./package.json');
 
-const files = ['index.html', 'renderer.js', 'main.js', 'dist/bundle.js', 'package.json'];
+const files = ['index.html', 'renderer.js', 'main.js', 'dist/bundle.js', 'dist/bundle.css', 'package.json'];
 const destPackage = path.join(__dirname, 'tmp');
 
 const options = {
@@ -27,6 +30,16 @@ const options = {
   out: path.join(__dirname, 'releases'),
   version: '1.3.4'
 };
+
+gulp.task('styles', (done) => {
+  gulp.src(['styles/**/*.scss', 'styles/**/*.css'])
+    .pipe(sass({ outputStyle: 'compressed' }).on('error', sass.logError))
+    .pipe(gulp.dest('./tmp'))
+    .pipe(concat('bundle.css'))
+    .pipe(autoprefixer())
+    .pipe(gulp.dest('./dist'))
+    .on('finish', () => done());
+});
 
 const webpackRun = (config, cb) => {
   webpack(config, (err, stats) => {
@@ -92,9 +105,9 @@ gulp.task('delDist', () => {
 
 
 gulp.task('default', (done) => {
-  runSequence('delDist', 'lint', 'webpack', 'electron', done);
+  runSequence('delDist', 'lint', 'webpack', 'styles', 'electron', done);
 });
 
-gulp.task('build', (done) => {
-  runSequence('delDist', 'lint', 'webpack:release', 'copy', 'package', done);
+gulp.task('release', (done) => {
+  runSequence('delDist', 'lint', 'webpack:release', 'styles', 'copy', 'package', done);
 });
