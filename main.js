@@ -3,6 +3,7 @@ const electron = require('electron'); // eslint-disable-line
 const app = electron.app;
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow;
+const client = require('electron-connect').client;
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -15,6 +16,9 @@ const createWindow = () => {
   // and load the index.html of the app.
   mainWindow.loadURL(`file://${__dirname}/index.html`);
 
+  // Connect to server process
+  client.create(mainWindow);
+
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
 
@@ -25,7 +29,7 @@ const createWindow = () => {
     // when you should delete the corresponding element.
     mainWindow = null;
   });
-}
+};
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.

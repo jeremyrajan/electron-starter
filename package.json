@@ -1,6 +1,6 @@
 {
   "name": "electron-starter",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Electron boilerplate with react & webpack",
   "main": "main.js",
   "scripts": {
@@ -29,6 +29,7 @@
     "babel-preset-react": "^6.11.1",
     "del": "^2.2.2",
     "electron": "^1.3.4",
+    "electron-connect": "^0.6.0",
     "electron-packager": "^8.0.0",
     "eslint-config-airbnb": "^11.2.0",
     "eslint-plugin-import": "^1.16.0",

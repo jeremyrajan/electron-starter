@@ -3,7 +3,6 @@ const webpack = require('webpack');
 const eslint = require('gulp-eslint');
 const webpackConfig = require('./webpack.config');
 const gutil = require('gulp-util');
-const execSync = require('child_process').execSync;
 const runSequence = require('run-sequence');
 const del = require('del');
 const path = require('path');
@@ -12,10 +11,12 @@ const fs = require('fs-extra');
 const sass = require('gulp-sass');
 const autoprefixer = require('gulp-autoprefixer');
 const concat = require('gulp-concat');
+const electron = require('electron-connect').server.create();
+const execSync = require('child_process').execSync;
 
 const packageJSON = require('./package.json');
 
-const files = ['index.html', 'renderer.js', 'main.js', 'dist/bundle.js', 'dist/bundle.css', 'package.json'];
+const files = ['index.html', 'renderer.js', 'main.js', 'dist/bundle.js', 'dist/bundle.css', 'package.json', 'static'];
 const destPackage = path.join(__dirname, 'tmp');
 
 const options = {
@@ -95,17 +96,27 @@ gulp.task('lint', () => {
     .pipe(eslint.failAfterError());
 });
 
+gulp.task('delDist', (cb) => {
+  del(['./dist/', './tmp/'])
+    .then(cb());
+});
+
 gulp.task('electron', () => {
-  execSync('electron .');
+  // Start browser process
+  electron.start();
+
+  // Restart browser process
+  gulp.watch('main.js', electron.restart);
 });
 
-gulp.task('delDist', () => {
-  del('./dist/');
+gulp.task('watch', () => {
+  gulp.watch(['./styles/**/*.*', './src/**/*.*', 'index.html', './static/**/*.*'], () => {
+    runSequence('delDist', 'lint', 'webpack', 'styles', 'copy', electron.reload);
+  });
 });
 
-
-gulp.task('default', (done) => {
-  runSequence('delDist', 'lint', 'webpack', 'styles', 'electron', done);
+gulp.task('default', () => {
+  runSequence('delDist', 'lint', 'webpack', 'styles', 'copy', 'electron', 'watch', () => {});
 });
 
 gulp.task('release', (done) => {
