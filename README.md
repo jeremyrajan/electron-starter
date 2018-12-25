@@ -1,5 +1,7 @@
 # Electron starter (react + webpack)
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/jeremyrajan/electron-starter.svg)](https://greenkeeper.io/)
+
 Clone the repo to you working directory and run:
 
 ```
